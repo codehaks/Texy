@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TexyApp
 {
-    public class WordStat
+    public class WordCountStat
     {
         [Benchmark]
         public void CountWordsSplit()
