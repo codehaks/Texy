@@ -8,15 +8,28 @@ namespace TexyApp
     public class WordToStat
     {
         [Benchmark]
-        public void CountWordsSpan()
+        public void CountWordsSpanIndex()
         {
             string filePath = @"D:\Data\books\Pride_and_prejudice.txt";
             var text = System.IO.File.ReadAllText(filePath).ToCharArray().AsSpan<Char>();
             var count = 0;
-            var toWord = "to".ToCharArray();
             for (int i = 0; i < text.Length - 1; i++)
             {
                 if (text.Slice(i, 2)[0] == 't' && text.Slice(i, 2)[1] == 'o')
+                    count++;
+            }
+            Console.WriteLine("Count : {0}", count);
+        }
+
+        [Benchmark]
+        public void CountWordsSpanToString()
+        {
+            string filePath = @"D:\Data\books\Pride_and_prejudice.txt";
+            var text = System.IO.File.ReadAllText(filePath).ToCharArray().AsSpan<Char>();
+            var count = 0;
+            for (int i = 0; i < text.Length - 1; i++)
+            {
+                if (text.Slice(i, 2).ToString() == "to")
                     count++;
             }
             Console.WriteLine("Count : {0}", count);
