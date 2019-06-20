@@ -8,7 +8,7 @@ namespace TexyApp
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<WordToStat>();
+            BenchmarkRunner.Run<MyWordToStat>();
         }
     }
 }
