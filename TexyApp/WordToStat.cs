@@ -12,7 +12,6 @@ namespace TexyApp
         {
             string filePath = @"D:\Data\books\Pride_and_prejudice.txt";
             var text = System.IO.File.ReadAllText(filePath).ToCharArray().AsMemory<Char>();
-            var s = text.Slice(1, 2);
 
             var count = 0;
             for (int i = 0; i < text.Length - 1; i++)
@@ -22,6 +21,7 @@ namespace TexyApp
             }
             Console.WriteLine("Count : {0}", count);
         }
+
         [Benchmark]
         public void MyCountWordsSpanIndex()
         {
