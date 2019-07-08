@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,23 +18,33 @@ namespace TexyApp
         {
             string filePath = @"D:\Data\books\Pride_and_prejudice.txt";
             var text = System.IO.File.ReadAllText(filePath);
-            var count = 0;
+           
 
             var sectionLength = text.Length / 4;
+            var total = 0;
+
+            IList<char[]> sections = new List<char[]>();
+            sections.Add(text.Take(sectionLength).ToArray());
+            sections.Add(text.Skip(1 * sectionLength).Take(sectionLength).ToArray());
+            sections.Add(text.Skip(2 * sectionLength).Take(sectionLength).ToArray());
+            sections.Add(text.Skip(3 * sectionLength).Take(sectionLength).ToArray());
+
 
             Parallel.For(0, 4, index =>
-            {
-                var section = text.Skip((int)(index) * sectionLength).Take(sectionLength).ToArray().AsSpan<Char>();
+            {               
 
-                for (int i = 0; i < section.Length - 1; i++)
+                var count = 0;
+                for (int i = 0; i < sections[(int)index].Length - 1; i++)
                 {
-                    if (section.Slice(i, 2)[0] == 't' && section.Slice(i, 2)[1] == 'o')
+                    if (sections[(int)index].AsSpan().Slice(i, 2)[0] == 't' && sections[(int)index].AsSpan().Slice(i, 2)[1] == 'o')
                         count++;
                 }
+                total = total + count;
+                //Console.WriteLine("Task{0} -> Count : {1}",index, count);
             });
 
 
-            Console.WriteLine("Count : {0}", count);
+            Console.WriteLine("Count : {0}", total);
         }
     }
 }
